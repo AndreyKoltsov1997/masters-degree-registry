@@ -18,35 +18,45 @@ public class Encriptor {
     private final String ENCRYPTION_KEY = "spbstu-encryption-key";
     private final String BASIC_ENCODING_TYPE = "UTF-8";
 
-    private Cipher cipherEncriptionHandler;
+    private Cipher cipherEncryptionHandler;
 
 
     public Encriptor() {
-        this.cipherEncriptionHandler = generateCipherEncryptionHandler();
+        this.cipherEncryptionHandler = generateCipherEncryptionHandler(this.BASIC_ENCODING_TYPE);
     }
 
     public String encryptStr(final String stringForObfuscation) {
-        byte[] encryptedValue = cipherEncriptionHandler.doFinal(stringForObfuscation.getBytes());
-        return Base64.getEncoder().encodeToString(encryptedValue);
+        String result = "";
+        try {
+            byte[] encryptedValue = this.cipherEncryptionHandler.doFinal(stringForObfuscation.getBytes());
+            result = Base64.getEncoder().encodeToString(encryptedValue);
+        } catch (Exception error) {
+            System.err.println("Unable to encrypt string: " + stringForObfuscation);
+            error.printStackTrace();
+            return null;
+        }
+        return result;
     }
 
     // MARK: - Private
     private Cipher generateCipherEncryptionHandler(final String encodingType) {
-        Cipher cipherEncriptionHandler = null;
+        Cipher cipherEncryptionHandler = null;
         try {
             // NOTE: Specification of initialization vector.
             IvParameterSpec initVectorParameterSpec = new IvParameterSpec(this.INITIALIZATION_VECTOR.getBytes(encodingType));
             SecretKeySpec secretKeySpec = new SecretKeySpec(this.ENCRYPTION_KEY.getBytes(encodingType), Encriptor.ENCRYPTION_ALGORITHM);
 
             final String cipherAlgorithmTransformation = "AES/CBC/PKCS5PADDING";
-            cipherEncriptionHandler = Cipher.getInstance(cipherAlgorithmTransformation);
-            cipherEncriptionHandler.init(Cipher.ENCRYPT_MODE, secretKeySpec, initVectorParameterSpec);
+            cipherEncryptionHandler = Cipher.getInstance(cipherAlgorithmTransformation);
+            cipherEncryptionHandler.init(Cipher.ENCRYPT_MODE, secretKeySpec, initVectorParameterSpec);
         } catch (UnsupportedEncodingException error) {
             System.err.println("Unable to create Cipher Encryption handler due to an unsupported encoding: " + encodingType);
+            return null;
         } catch (Exception error) {
             System.err.println("Unable to create Cipher Encryption handler.");
-            error.printStackTrace();;
+            error.printStackTrace();
+            return null;
         }
-        return cipherEncriptionHandler;
+        return cipherEncryptionHandler;
     }
 }
