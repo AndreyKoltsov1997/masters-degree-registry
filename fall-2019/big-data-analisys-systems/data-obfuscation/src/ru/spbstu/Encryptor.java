@@ -18,17 +18,18 @@ public class Encryptor {
     private final String ENCRYPTION_KEY = "spbstu-encryption-key";
     private final String BASIC_ENCODING_TYPE = "UTF-8";
 
-    private Cipher cipherEncryptionHandler;
 
+    public Encryptor() { }
 
-    public Encryptor() {
-        this.cipherEncryptionHandler = generateCipherEncryptionHandler(this.BASIC_ENCODING_TYPE);
-    }
-
-    public String encryptStr(final String stringForObfuscation) {
+    /**
+     * Encrypts @param stringForObfuscation using AES algorithm with CBS mode.
+     * @return encrypted string.
+     */
+    public final String encryptStr(final String stringForObfuscation) {
         String result = "";
         try {
-            byte[] encryptedValue = this.cipherEncryptionHandler.doFinal(stringForObfuscation.getBytes());
+            Cipher cipherEncryptionHandler = this.generateCipherEncryptionHandler(this.BASIC_ENCODING_TYPE, Cipher.ENCRYPT_MODE);
+            byte[] encryptedValue = cipherEncryptionHandler.doFinal(stringForObfuscation.getBytes());
             result = Base64.getEncoder().encodeToString(encryptedValue);
         } catch (Exception error) {
             System.err.println("Unable to encrypt string: " + stringForObfuscation);
@@ -38,8 +39,22 @@ public class Encryptor {
         return result;
     }
 
+    public final String decryotStr(final String obfuscatedString) {
+        String result = "";
+        try {
+            Cipher cipherEncryptionHandler = this.generateCipherEncryptionHandler(this.BASIC_ENCODING_TYPE, Cipher.DECRYPT_MODE);
+            byte[] decodedRawValue = cipherEncryptionHandler.doFinal(Base64.getDecoder().decode(obfuscatedString));
+            result = new String((decodedRawValue);
+        } catch (Exception error) {
+            System.err.println("Unable to decode string: " + obfuscatedString);
+            error.printStackTrace();
+        }
+        return result;
+    }
+
     // MARK: - Private
-    private Cipher generateCipherEncryptionHandler(final String encodingType) {
+
+    private Cipher generateCipherEncryptionHandler(final String encodingType, int mode) {
         Cipher cipherEncryptionHandler = null;
         try {
             // NOTE: Specification of initialization vector.
