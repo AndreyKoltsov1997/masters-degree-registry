@@ -9,7 +9,7 @@ import java.util.Base64;
 /**
  * Performcs encryption using AES algorithm.
  */
-public class Encriptor {
+public class Encryptor {
     private static final String ENCRYPTION_ALGORITHM = "AES";
     /**
      * @param INITIALIZATION_VECTOR - initialization vector for CBC encryption.
@@ -21,7 +21,7 @@ public class Encriptor {
     private Cipher cipherEncryptionHandler;
 
 
-    public Encriptor() {
+    public Encryptor() {
         this.cipherEncryptionHandler = generateCipherEncryptionHandler(this.BASIC_ENCODING_TYPE);
     }
 
@@ -44,7 +44,7 @@ public class Encriptor {
         try {
             // NOTE: Specification of initialization vector.
             IvParameterSpec initVectorParameterSpec = new IvParameterSpec(this.INITIALIZATION_VECTOR.getBytes(encodingType));
-            SecretKeySpec secretKeySpec = new SecretKeySpec(this.ENCRYPTION_KEY.getBytes(encodingType), Encriptor.ENCRYPTION_ALGORITHM);
+            SecretKeySpec secretKeySpec = new SecretKeySpec(this.ENCRYPTION_KEY.getBytes(encodingType), Encryptor.ENCRYPTION_ALGORITHM);
 
             final String cipherAlgorithmTransformation = "AES/CBC/PKCS5PADDING";
             cipherEncryptionHandler = Cipher.getInstance(cipherAlgorithmTransformation);
