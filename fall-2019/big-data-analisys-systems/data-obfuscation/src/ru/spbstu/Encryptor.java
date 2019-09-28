@@ -44,7 +44,7 @@ public class Encryptor {
         try {
             Cipher cipherEncryptionHandler = this.generateCipherEncryptionHandler(this.BASIC_ENCODING_TYPE, Cipher.DECRYPT_MODE);
             byte[] decodedRawValue = cipherEncryptionHandler.doFinal(Base64.getDecoder().decode(obfuscatedString));
-            result = new String((decodedRawValue);
+            result = new String(decodedRawValue);
         } catch (Exception error) {
             System.err.println("Unable to decode string: " + obfuscatedString);
             error.printStackTrace();
