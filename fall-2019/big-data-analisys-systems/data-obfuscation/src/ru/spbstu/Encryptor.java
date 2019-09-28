@@ -39,7 +39,11 @@ public class Encryptor {
         return result;
     }
 
-    public final String decryotStr(final String obfuscatedString) {
+    /**
+     * @param obfuscatedString - string to be decrypted.
+     * @return decrypted string.
+     */
+    public final String decryptStr(final String obfuscatedString) {
         String result = "";
         try {
             Cipher cipherEncryptionHandler = this.generateCipherEncryptionHandler(this.BASIC_ENCODING_TYPE, Cipher.DECRYPT_MODE);
