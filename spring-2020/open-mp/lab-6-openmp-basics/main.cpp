@@ -23,8 +23,8 @@ int main(int argc, char *argv[]) {
 
 #pragma omp parallel \
     shared(sequence) \
-    reduction(+ : positiveSum) \
-    reduction(- : negative_sum)
+    reduction(+ : evenNumbersSum) \
+    reduction(- : oddNumbersSum)
     {
 #pragma omp for
         // Given formula: a0-а1+a2-а3+a4-а5+...
