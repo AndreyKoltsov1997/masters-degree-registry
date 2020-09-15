@@ -9,7 +9,7 @@
 
 const unsigned short int SETS_COUNT = 3;
 
-int main(int argc, char** argv) {
+int main(int argc, char *argv[]) {
     // All sets have equal power = > use matrix representation
     int arr[SETS_COUNT][SET_POWER];
 
