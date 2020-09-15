@@ -1,3 +1,17 @@
+#include <mpi.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+#define N 3
+#define RECEIVING_ELEMS_COUNT 100
+
+const int TRANF_VALUES[N][N] = {
+        { 2, 4, 6 },
+        { 8, 10, 12 },
+        { 14, 16, 18 }
+};
+
 int main(int argc, char *argv[]) {
     int processNum = 0;
     int processCount = 0;
